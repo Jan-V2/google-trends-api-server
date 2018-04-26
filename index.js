@@ -1,6 +1,5 @@
 const express = require('express');
 const google_trends = require("google-trends-api");
-const querystring = require('querystring');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 
