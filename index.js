@@ -18,7 +18,8 @@ express()
                   let json = JSON.parse(results);
                   let timeline = json.default.timelineData;
                   let res_json = timeline[timeline.length-1].value;
-                  res.send(res_json)
+                  res.send(res_json);
+                  console.log("handeled request for query:" + q.toString());
               })
       }
 
