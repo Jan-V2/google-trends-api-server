@@ -1,10 +1,12 @@
 const express = require('express');
 const google_trends = require("google-trends-api");
+const cors = require('cors');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
+  .use(cors())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => {
@@ -17,9 +19,13 @@ express()
               .then(function(results){
                   let json = JSON.parse(results);
                   let timeline = json.default.timelineData;
-                  let res_json = timeline[timeline.length-1].value;
-                  res.send(res_json);
-                  console.log("handeled request for query:" + q.toString());
+                  if (timeline.length > 0){
+                      let res_json = timeline[timeline.length-1].value;
+                      res.send(res_json);
+                  }else{
+                      res.send("")
+                  }
+                  console.log("handeled request for query : " + q.toString());
               })
       }
 
