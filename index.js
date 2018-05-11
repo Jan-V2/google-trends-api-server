@@ -23,12 +23,11 @@ express()
                       let res_json = timeline[timeline.length-1].value;
                       res.send(res_json);
                   }else{
-                      res.send("")
+                      let snd = q.map((e) => {return 0});
+                      res.send(snd)
                   }
                   console.log("handeled request for query : " + q.toString());
               })
       }
-
-
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
