@@ -2,11 +2,20 @@ const express = require('express');
 const google_trends = require("google-trends-api");
 const cors = require('cors');
 const path = require('path');
-const PORT = process.env.PORT || 5000;
+const fs = require('fs');
+const key = fs.readFileSync("./keys/private.key", 'utf8');
+const cert = fs.readFileSync("./keys/server.crt", 'utf8');
+const http = require('http');
+const https =require("https");
+const tls = require("tls");
+const HTTP_PORT = process.env.PORT || 8080;
+const HTTPS_PORT = process.env.PORT || 8443;
 
-express()
+
+let app = express()
   .use(express.static(path.join(__dirname, 'public')))
   .use(cors())
+
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => {
@@ -30,5 +39,13 @@ express()
       }
 
 
-  })
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  });
+
+const http_server = http.createServer(app);
+const credentials = tls.createSecureContext({key: key, cert: cert});
+const https_server = https.createServer(app, credentials);
+
+//http_server.listen(HTTP_PORT);
+//console.log(`HTTP listening on ${ HTTP_PORT }`);
+https_server.listen(HTTPS_PORT);
+console.log(`HTTPS listening on ${ HTTPS_PORT }`);
