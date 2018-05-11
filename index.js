@@ -29,7 +29,7 @@ express()
                       res.send(res_json);
                   } else {
                       console.log("q: " + q.toString());
-                      let snd = q.map(() => {return "0"});
+                      let snd = q.map(() => {return 0});
                       res.send(snd)
                   }
                   console.log("handeled request for query : " + q.toString());
